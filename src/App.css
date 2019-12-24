@@ -20,3 +20,21 @@
 .App-link {
   color: #09d3ac;
 }
+
+.App-Intro {
+color: whitesmoke;
+text-align: center;
+background-color: rgb(37, 36, 37);
+}
+
+.First {
+  margin: 0px;
+}
+
+.Second {
+  text-align: center;
+  padding: 20px;
+}
+.cantab{
+  margin: auto;
+}
