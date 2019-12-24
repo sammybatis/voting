@@ -73,5 +73,5 @@ contract Election{
    // update candidates vote counts 
      candidate[candidateId].candidateVoteCount++;
      
-    }
+    } // THIS IS TEST 
 }
