@@ -1,9 +1,12 @@
 import React from 'react'
 import Web3 from 'web3'
 import {Table, Header, Image} from 'semantic-ui-react'
-//import DisplayAcct from './components/DisplayAcct'
+import {BrowserRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom'
 import Election from './contracts/Election.json'
-//import TableData from './components/TableData'
+import MainPage from './pages/MainPage.jsx'
+import NotFound from './pages/404'
+import LoginPage from "./pages/LoginPage.jsx"
+import RegistrationPage from "./pages/RegistrationPage.jsx"
 
 
 import './App.css'
@@ -41,40 +44,42 @@ constructor(props) {
   this.state = {
     election: undefined,
     voteCounts: 0,
+    candidateId: '',
     candidates: [],
     account: '',
-    loading: true
+    loading: true,
   }
+    this.castBallot = this.castBallot.bind(this)
 }
 
-  render() {
-    return (
-        <div>
-          <h1 className = "App-Intro">Welcome to Draxma Blockchain Voting System</h1>
-          <Table basic='very' celled collapsing className="cantab">
-      <Table.Header>
-        <Table.Row>
-          <Table.HeaderCell>Candidate's #</Table.HeaderCell>
-          <Table.HeaderCell>Candidate's Name</Table.HeaderCell>
-        </Table.Row>
-      </Table.Header>
-      <Table.Body>
-      <Table.Row>
-        <Table.Cell>
-          <Header as='h4' image>
-            <Image src='https://react.semantic-ui.com/images/avatar/small/lena.png' rounded size='mini' />
-            <Header.Content>Lena</Header.Content>
-            </Header>
-        </Table.Cell>
-      </Table.Row>
-      </Table.Body>
-      </Table>
-        </div>
-        
-      
-    )
-    }     
-      
+  submitVote = (event) => {
+    event.preventDefault();
+
+  }
+  castBallot = (event) => {
+    this.setState({candidateId: event.target.value});
+    this.setState({loading: true})
+    this.state.election.methods.castBallot().send({from: this.state.account})
+    .once('receipt', (receipt) => {
+      this.setState({loading: false})
+    })
+  }
+
+
+  render = () => {
+    return(
+      <Router>
+          <Switch>
+              <Route exact path="/" component={MainPage}/>
+              <Route exact path="/404" component={NotFound}/>
+              <Route exact path="/loginpage" component={LoginPage}/>
+              <Route exact path="/registrationpage" component={RegistrationPage}/>
+              <Redirect to="/404"/>
+          </Switch>
+      </Router>
+  )
+}
+
 }
 
 
