@@ -11,7 +11,7 @@ contract Election{
    address public EC;
    
    constructor () public{
-    EC = msg.sender;   
+    EC = msg.sender;
    }
    
    modifier restricted {

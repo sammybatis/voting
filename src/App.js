@@ -12,10 +12,13 @@ import RegistrationPage from "./pages/RegistrationPage.jsx"
 import './App.css'
 
 
+
+
 class App extends React.Component {
 
  async componentDidMount(){
     await this.loadWeb3()
+    await this.loadBlockchainData()
  }
 
 async loadWeb3 (){
@@ -32,34 +35,37 @@ async loadWeb3 (){
 async loadBlockchainData() {
   const web3 = window.web3
   const accounts = await web3.eth.getAccounts()
+  this.setState({account:accounts[0]})
   const networkId = await web3.eth.net.getId()
   const networkInfo = Election.networks[networkId]
-  const instance = web3.eth.Contract(Election.abi, networkInfo && networkInfo.address) 
-  this.setState({election: instance, web3: web3, account: accounts[0], loading: false})
-  this.addEventListener(this)
+  
+  if(networkInfo) {
+  const instance =  new web3.eth.Contract(Election.abi, networkInfo && networkInfo.address)
+  this.setState({instance})
+}
+else {
+  window.alert('Wrong network deployed')
+}
+  
 }
 
 constructor(props) {
   super(props)
   this.state = {
-    election: undefined,
     voteCounts: 0,
-    candidateId: '',
     candidates: [],
     account: '',
     loading: true,
   }
-    this.castBallot = this.castBallot.bind(this)
+  
+  this.Vote = this.Vote.bind(this)
 }
 
-  submitVote = (event) => {
-    event.preventDefault();
 
-  }
-  castBallot = (event) => {
-    this.setState({candidateId: event.target.value});
-    this.setState({loading: true})
-    this.state.election.methods.castBallot().send({from: this.state.account})
+
+  Vote(candidateId) {
+    this.setState({ loading: true})
+    this.state.instance.methods.Vote(candidateId).send({from: this.state.account})
     .once('receipt', (receipt) => {
       this.setState({loading: false})
     })
@@ -68,6 +74,7 @@ constructor(props) {
 
   render = () => {
     return(
+
       <Router>
           <Switch>
               <Route exact path="/" component={MainPage}/>

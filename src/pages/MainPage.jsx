@@ -2,22 +2,40 @@ import React, { useRef, useState, useEffect, Component } from 'react'
 import { Link } from "react-router-dom"
 
 class MainPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedOption: " "
+        };
 
+    
+    }
+    handleOptionChange = event => {
+        this.setState ({ selectedOption: event.target.value});
+        
+    };
+    handleFormSubmit = async event =>  {
+        event.preventDefault()
+        alert(this.state.selectedOption) 
+    
+    };
 
-
+        
+        
+ 
     render = () => {
         return (
-            <div class="bodydiv">
-               <form onSubmit = {this.submitVote}>
+            <div className="bodydiv">
+               <form onSubmit = {this.handleFormSubmit}>
                
-                <header class="navheader">
-                    <div class="navdiv">
+                <header className="navheader">
+                    <div className="navdiv">
                         <nav>
                             <input type="checkbox" id="check" />
                             <label for="check" class="checkbtn">
-                                <span class="fasfa-bars"></span>
+                                <span className="fasfa-bars"></span>
                             </label>
-                            <label class="logo">Our Name Here</label>
+                            <label className="logo">DRAXMA GH</label>
                             <ul>
                                 <li><Link to="/" class="active">Vote</Link></li>
                                 <li><Link to="/registrationpage" >Register</Link></li>
@@ -27,27 +45,26 @@ class MainPage extends Component {
                     </div>
                 </header>
 
-                <div class="formdivtop"></div>
+                <div className="formdivtop"></div>
 
 
 
                 <section className="workarea">
-                    <section class="Imageslider">
+                    <section className="Imageslider">
 
                     </section>
-                    <header class="titleheader">
+                    <header className="titleheader">
                         <h1>ELECTION 2020</h1>
                         <h2>Vote for your candidate, Vote for the future</h2>
                     </header>
-                    <section class="tablesection">
-                        <p>List of candidates are grouped into categories below.
-                           Check the checkbox beside your candidate and click on the vote button to vote.
+                    <section className="tablesection">
+                        <p>Check the checkbox beside your candidate and click on the vote button to vote.
                            Remember, you can only vote once. Attempt to vote multiple times in one category may render your vote void.
                         </p>
 
-                        <div class="tablediv">
+                        <div className="tablediv">
                             {/* <p>Category One</p> */}
-                            <table class="tables">
+                            <table className="tables">
                                 <thead>
                                     <tr>
                                         <td>CANDIDATE ID</td>
@@ -61,48 +78,60 @@ class MainPage extends Component {
 
                                     <tr>
                                         <td>01</td>
-                                        <td>SAMUEL OWUSU</td>
+                                        <td>JOHNSON SMITH</td>
                                         <td><img src="imgs/owusu.jpg" /></td>
                                         <td><img src="imgs/flag.jpg" /></td>
                                         <td>
-                                            <label class="tickcont">
-                                                <input type="radio" name="cat1tick" />
-                                                <span class="cusrd"></span>
+                                            <label className="tickcont">
+                                                <input type="radio" 
+                                                       name="cat1tick" 
+                                                       value ="I have voted for Smith"
+                                                       checked={this.state.selectedOption === "I have voted for Smith"}
+                                                       onChange={this.handleOptionChange}/>
+                                                <span className="cusrd"></span>
                                             </label>
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td>02</td>
-                                        <td>KELVIN GYIMAH</td>
+                                        <td>RYAN ROBBINS</td>
                                         <td><img src="imgs/jim.jpg" /></td>
                                         <td><img src="imgs/flag2.jpg" /></td>
                                         <td>
-                                            <label class="tickcont">
-                                                <input type="radio" name="cat1tick" />
-                                                <span class="cusrd"></span>
+                                            <label className="tickcont">
+                                                <input type="radio" 
+                                                       name="cat1tick"
+                                                       value="I have voted for Ryan"
+                                                       checked={this.state.selectedOption === "I have voted for Ryan"} 
+                                                       onChange={this.handleOptionChange}/>
+                                                <span className="cusrd"></span>
                                             </label>
                                         </td>                                    
                                     </tr>
 
                                     <tr>
                                         <td>03</td>
-                                        <td>NOTHING YET</td>
+                                        <td>BOB ANDREWS </td>
                                         <td><img src="imgs/set.jpg" /></td>
                                         <td><img src="imgs/flag3.jpg" /></td>
                                         <td>
-                                            <label class="tickcont">
-                                                <input type="radio" name="cat1tick" />
-                                                <span class="cusrd"></span>
+                                            <label className="tickcont">
+                                                <input type="radio" 
+                                                       name="cat1tick" 
+                                                       value="I have voted for Bob"
+                                                       checked={this.state.selectedOption === "I have voted for Bob"}                                                                  
+                                                       onChange={this.handleOptionChange}/>
+                                                <span className="cusrd"></span>
                                             </label>
                                         </td>                                    
                                     </tr>
 
                                     <tr>
                                         <td colspan="5">
-                                            <div class="votebtndiv">
+                                            <div className="votebtndiv">
                                                 <button type="button"
-                                                onClick={this.castBallot}>VOTE</button>
+                                                onClick={this.handleFormSubmit}>VOTE</button>
                                                 
                                             </div>
                                         </td>
